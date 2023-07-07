@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>星穹铁道抽卡模拟器</title>
+
+<!-- CSS only -->
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+    body {
+        background-image: url('https://images8.alphacoders.com/130/1308491.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+    }
+</style>
+
+</head>
+<body>
+    <!-- Image and text -->
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="/" style="color: black">首页</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/draw" style="color: black">抽卡</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/mycard" style="color: black">我的卡片</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/cardrecord" style="color: black">抽卡记录</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/logout" style="color: black">登出</a>
+        </li>
+    </ul>
+    <main>
+        <div class="container">
+            <h1 style="color: lightgray;">你说的对，但是</h2>
+            <p class="h4" style="color: lightgray;">《崩坏：星穹铁道》是由米哈游自主研发的一款全新回合制游戏。游戏发生在一个「星神」所创造的宇宙，在这里，他们创造现实磨削星辰，在无数【世界】留下他们痕迹，在这里，你将扮演一位名为特殊的旅客，将与继承【开拓】意识的伙伴们，和他们一起沿着某个【星神】曾经所行之旅前进，乘坐星空列车穿越银河，在无数光怪陆离【世界】与【世界】之间展开新的冒险探索新的文明同时逐步发掘「星神秘密」的真相。</p>
+            <div id="myCarousel" class="carousel slide">
+            <!-- 轮播（Carousel）指标 -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+                <li data-target="#myCarousel" data-slide-to="3"></li>
+                <li data-target="#myCarousel" data-slide-to="4"></li>
+                <li data-target="#myCarousel" data-slide-to="5"></li>
+            </ol>   
+            <!-- 轮播（Carousel）项目 -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img decoding="async" alt="0"
+                    src="https://uploadstatic.mihoyo.com/sr-wiki/2022/10/17/26436641/104bf46a08646f575dafde0718895eba_1952371050549674334.png">
+                    <div class="carousel-caption">
+                        <p class="h1">希儿</p>
+                        <p>地底反抗组织「地火」的骨干，别号「蝴蝶」。性格率真直爽，内心隐藏着细腻敏锐的一面。</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img decoding="async" alt="1"
+                    src="https://uploadstatic.mihoyo.com/sr-wiki/2023/02/06/288909604/1b267148ae357ccf44d26d2388f56789_6173237130194811991.png">
+                    <div class="carousel-caption">
+                        <p class="h1">白露</p>
+                        <p>仙舟「罗浮」持明族的尊长，有「衔药龙女」之称的医士。以独门医理和唯有龙脉方可施行的「医疗手段」救死扶伤。</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img decoding="async" alt="2"
+                    src="https://uploadstatic.mihoyo.com/sr-wiki/2022/10/31/26436641/461a6d44eab302c26b8979dea97ceb01_6362556912360533578.png">
+                    <div class="carousel-caption">
+                        <p class="h1">瓦尔特·杨</p>
+                        <p>老成持重的列车组前辈。享受着久违的冒险奇遇，心底埋藏的热血再度燃烧。偶尔还会将经历的冒险旅程画在本子里。</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img decoding="async" alt="3"
+                    src="https://uploadstatic.mihoyo.com/sr-wiki/2022/10/27/83657908/83a170c4113c8ab2e8692f77527b888f_3602902678825207666.png">
+                    <div class="carousel-caption">
+                        <p class="h1">姬子</p>
+                        <p>星穹列车的修复者。为了见证广阔的星空，选择与星穹列车同行。爱好是制作手调咖啡。</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img decoding="async" alt="4"
+                    src="https://uploadstatic.mihoyo.com/sr-wiki/2022/10/17/26436641/aa901c21b46753d11d771f6f8e7ceebb_2350218539480916069.png">
+                    <div class="carousel-caption">
+                        <p class="h1">艾丝妲</p>
+                        <p>空间站「黑塔」的站长，出身名门的大小姐。好奇心旺盛的天文研究者，擅长管理空间站各抒己见的科员。</p>
+                    </div>
+                </div>
+                <div class="item">
+                    <img decoding="async" alt="5"
+                    src="https://uploadstatic.mihoyo.com/sr-wiki/2022/12/12/77234787/340ae283d80d19c6aeb55c8fb589e11d_3904463716323201245.png">
+                    <div class="carousel-caption">
+                        <p class="h1">停云</p>
+                        <p>仙舟「罗浮」天舶司的接渡使。随商团出使过众多世界，缔结贸易与盟谊。</p>
+                    </div>
+                </div>
+            </div>
+            <!-- 轮播（Carousel）导航 -->
+            <a class="carousel-control left" href="#myCarousel" data-slide="prev">
+                <span _ngcontent-c3="" aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="carousel-control right" href="#myCarousel" data-slide="next">
+               <span _ngcontent-c3="" aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+        </div>
+        </div>
+    </main>
+
+    <blockquote class="blockquote text-center">
+        <p class="mb-0">Star Rail CardDraw Simulator</p>
+        <footer class="blockquote-footer">NUAA 数据库实验@<cite title="https://dawn-whisper.hack.best/">Dawn_whisper</cite></footer>
+    </blockquote>
+
+</body>
+</html>

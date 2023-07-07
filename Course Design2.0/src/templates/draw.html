@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+    body {
+        background-image: url('https://images8.alphacoders.com/130/1308491.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>抽卡</title>
+</head>
+<body>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="/" style="color: black">首页</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/draw" style="color: black">抽卡</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/mycard" style="color: black">我的卡片</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/cardrecord" style="color: black">抽卡记录</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/logout" style="color: black">登出</a>
+        </li>
+    </ul>
+
+    <p class="h1" style="color: lightgray; display: inline;">Welcome, {{ username }}</p>
+
+    <div class="container" style="text-align: center;">
+        <button type="button" class="btn btn-primary" onclick="DrawCard(1)">一发入魂</button>
+        <button type="button" class="btn btn-primary" onclick="DrawCard(10)">十连保命</button>
+        <div id="result" class="h3" style="color: lightgray;"></div>
+    </div>
+    
+    <h2 style="color: lightgray;">卡池信息</h2>
+    <div class="container" style="width: 100%; ">
+        <table class="table table-hover table-striped" style="background-color: white; opacity: 0.8;">
+            <thead>
+                <tr>
+                    <th scope="col" class="text-nowrap">卡片名称</th>
+                    <th scope="col" class="text-nowrap">稀有度</th>
+                    <th scope="col" class="text-nowrap">属性</th>
+                    <th scope="col" class="text-nowrap">命途</th>
+                    <th scope="col">描述</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for card in data %}
+                    <tr>
+                        <td>{{ card['Cardname'] }}</td>
+                        <td>{{ card['Rarity'] }}</td>
+                        <td>{{ card['Attribute'] }}</td>
+                        <td>{{ card['Destiny'] }}</td>
+                        <td class="desc">{{ card['Description'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+    <div class="container" style="justify-content: center; display: flex;">
+        <button type="button" class="btn btn-secondary" onclick="GoPage({{ page }}-1)">上一页</button>
+        <h4>当前第{{ page }}页</h4>
+        <button type="button" class="btn btn-secondary" onclick="GoPage({{ page }}+1)">下一页</button>
+    </div>
+    
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function GoPage(pagenum) {
+            if (pagenum>=1) window.location.href = '/draw?page=' + pagenum;
+        }
+
+        function DrawCard(num) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/drawcard", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function()
+            {
+                if (xhr.readyState === XMLHttpRequest.DONE)
+                {
+                    if (xhr.status === 200) {
+                        var resultElement = document.getElementById("result");
+                        resultElement.textContent = '恭喜！你抽到了：' + JSON.parse(xhr.responseText);
+                    }
+                    else alert("抽卡请求失败");
+                }
+            };
+            xhr.send(JSON.stringify({ 'num': num }));
+        }
+    </script>
+
+    <blockquote class="blockquote text-center">
+        <p class="mb-0">Star Rail CardDraw Simulator</p>
+        <footer class="blockquote-footer">NUAA 数据库实验@<cite title="https://dawn-whisper.hack.best/">Dawn_whisper</cite></footer>
+    </blockquote>
+</body>
+</html>

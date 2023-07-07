@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+    body {
+        background-image: url('https://images8.alphacoders.com/130/1308491.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+    }
+</style>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>我的卡片</title>
+</head>
+<body>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="/" style="color: black">首页</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/draw" style="color: black">抽卡</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/mycard" style="color: black">我的卡片</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/cardrecord" style="color: black">抽卡记录</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/logout" style="color: black">登出</a>
+        </li>
+    </ul>
+
+    <p class="h1" style="color: lightgray; display: inline;">Welcome, {{ username }}</p>
+
+    <div class="container" style="width: 100%;">
+        <table class="table table-striped table-hover" style="background-color: white; opacity: 0.8;">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col" class="text-nowrap">卡片名称</th>
+                    <th scope="col" class="text-nowrap">稀有度</th>
+                    <th scope="col" class="text-nowrap">属性</th>
+                    <th scope="col" class="text-nowrap">命途</th>
+                    <th scope="col" class="text-nowrap">等级</th>
+                    <th scope="col">描述</th>
+                    <th scope="col" class="text-nowrap">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for card in data %}
+                    <tr>
+                        <td>{{ card['Cardname'] }}</td>
+                        <td>{{ card['Rarity'] }}</td>
+                        <td>{{ card['Attribute'] }}</td>
+                        <td>{{ card['Destiny'] }}</td>
+                        <td>{{ card['Level'] }}</td>
+                        <td>{{ card['Description'] }}</td>
+                        <td class="text-nowrap">
+                            <button onclick="upgradeCard({{ card['UserCardID'] }})">升级</button>
+                            <button onclick="deleteCard({{ card['UserCardID'] }})">删除</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function upgradeCard(userCardID) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/upgrade-card", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function()
+            {
+                if (xhr.readyState === XMLHttpRequest.DONE)
+                {
+                    if (xhr.status === 200) location.reload();
+                    else alert("升级失败");
+                }
+            };
+            xhr.send(JSON.stringify({ 'user_card_id': userCardID }));
+        }
+
+        function deleteCard(userCardID) {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/delete-card", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onreadystatechange = function()
+            {
+                if (xhr.readyState === XMLHttpRequest.DONE)
+                {
+                    if (xhr.status === 200) location.reload();
+                    else alert("删除失败");
+                }
+            };
+            xhr.send(JSON.stringify({ 'user_card_id': userCardID }));
+        }
+    </script>
+
+    <blockquote class="blockquote text-center">
+        <p class="mb-0">Star Rail CardDraw Simulator</p>
+        <footer class="blockquote-footer">NUAA 数据库实验@<cite title="https://dawn-whisper.hack.best/">Dawn_whisper</cite></footer>
+    </blockquote>
+</body>
+</html>

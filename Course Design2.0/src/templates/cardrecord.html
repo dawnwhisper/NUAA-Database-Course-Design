@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" ></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script> -->
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<style>
+    body {
+        background-image: url('https://images8.alphacoders.com/130/1308491.jpg');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+    }
+</style>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>抽卡记录</title>
+</head>
+<body>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" href="/" style="color: black">首页</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/draw" style="color: black">抽卡</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/mycard" style="color: black">我的卡片</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/cardrecord" style="color: black">抽卡记录</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/logout" style="color: black">登出</a>
+        </li>
+    </ul>
+
+    <p class="h1" style="color: lightgray; display: inline;">Welcome, {{ username }}, 你一共抽了</p>
+    <div id="result" class="h1" style="color: lightgray; display: inline;"></div>
+    <p class="h1" style="color: lightgray; display: inline;">发</p>
+    <div class="pie-container" style="width: 30%; height: 37%; position:fixed; z-index: 1; background-color: #fff; opacity: 0.7; right: 50px; bottom: 30px;">
+        <div id="pie" style="width: 100%;height: 400px;"></div>
+    </div>
+
+    <div class="container" style="width: 100%; ">
+        <table class="table table-hover table-striped" style="background-color: white; opacity: 0.8;">
+            <thead>
+            <tr>
+                <th scope="col">卡片名称</th>
+                <th scope="col">稀有度</th>
+                <th scope="col">属性</th>
+                <th scope="col">命途</th>
+                <th scope="col">获取时间</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for card in data %}
+                    <tr>
+                        <td>{{ card['Cardname'] }}</td>
+                        <td>{{ card['Rarity'] }}</td>
+                        <td>{{ card['Attribute'] }}</td>
+                        <td>{{ card['Destiny'] }}</td>
+                        <td>{{ card['DrawTime'] }}</td>
+                        <td class="desc">{{ card['Description'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <blockquote class="blockquote text-center">
+        <p class="mb-0">Star Rail CardDraw Simulator</p>
+        <footer class="blockquote-footer">NUAA 数据库实验@<cite title="https://dawn-whisper.hack.best/">Dawn_whisper</cite></footer>
+    </blockquote>
+
+	<script type="text/javascript" src="../assets/js/echarts.min.js" ></script>
+    <!-- <script type="text/javascript" src="../assets/js/pieChart.js" ></script> -->
+    <script>
+        (function(){
+
+            var mydata = JSON.parse('{{ data|tojson }}');
+            var resultElement = document.getElementById("result");
+            resultElement.textContent = mydata.length;
+            var star5 = 0, star4 = 0, star3 = 0;
+            var weapon = 0, person = 0;
+            var fr = 0, tx = 0, xw = 0, hm = 0, ch = 0, xl = 0, zs = 0;
+            for (i in mydata)
+            {
+                var card = mydata[i]
+                // console.log(card);
+                if (card['Rarity'] == '5') star5++;
+                else if (card['Rarity'] == '4') star4++;
+                else if (card['Rarity'] == '3') star3++;
+
+                if (card['Attribute'] == '光锥') weapon++;
+                else person++;
+
+                if (card['Destiny'] == '丰饶') fr++;
+                else if (card['Destiny'] == '同谐') tx++;
+                else if (card['Destiny'] == '虚无') xw++;
+                else if (card['Destiny'] == '毁灭') hm++;
+                else if (card['Destiny'] == '存护') ch++;
+                else if (card['Destiny'] == '巡猎') xl++;
+                else if (card['Destiny'] == '智识') zs++;
+            }
+	
+            var pie = echarts.init(document.getElementById("pie"));
+            
+            option = {
+                title : {
+                    text: "抽卡分析图",
+                    x: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b}: {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    x: 'left',
+                    data:['5星','4星','3星','人物','光锥','丰饶','同谐','虚无','毁灭','存护','巡猎','智识']
+                },
+                series: [
+                    {
+                        name:'卡片属性',
+                        type:'pie',
+                        selectedMode: 'single',
+                        radius: ['0%', '20%'],
+                        label: {
+                            normal: {
+                                position: 'inner'
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: true
+                            }
+                        },
+                        data:[
+                            {value:person, name:'人物', selected: true},
+                            {value:weapon, name:'光锥'}
+                        ]
+                    },
+                    {
+                        name:'卡片稀有度',
+                        type:'pie',
+                        radius: ['30%', '45%'],
+                        label: {
+                            normal: {
+                                position: 'inner'
+                            }
+                        },
+                        data:[
+                            {value:star5, name:'5星'},
+                            {value:star4, name:'4星'},
+                            {value:star3, name:'3星'}
+                        ]
+                    },
+                    {
+                        name:'卡片命途',
+                        type:'pie',
+                        radius: ['55%', '65%'],
+            
+                        data:[
+                            {value:fr, name:'丰饶'},
+                            {value:tx, name:'同谐'},
+                            {value:xw, name:'虚无'},
+                            {value:hm, name:'毁灭'},
+                            {value:ch, name:'存护'},
+                            {value:xw, name:'虚无'},
+                            {value:xl, name:'巡猎'},
+                            {value:zs, name:'智识'}
+                        ]
+                    }
+                ]
+            };
+            pie.setOption(option);
+            })();
+    </script>
+</body>
+</html>

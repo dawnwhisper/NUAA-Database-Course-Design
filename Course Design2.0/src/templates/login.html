@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">  
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<head>
+    <title>登录</title>
+    <style>
+        body {
+            background-image: url('https://images8.alphacoders.com/130/1308491.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>登录</h2>
+        <form action="/login" method="POST">
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <p class="error">{{ error }}</p>
+            <button type="submit" class="btn btn-primary">登陆</button>
+            <button type="button" class="btn btn-primary" onclick="location.href='/register'">注册</button>
+        </form>
+    </div>
+
+    <blockquote class="blockquote text-center">
+        <p class="mb-0">Star Rail CardDraw Simulator</p>
+        <footer class="blockquote-footer">NUAA 数据库实验@<cite title="https://dawn-whisper.hack.best/">Dawn_whisper</cite></footer>
+    </blockquote>
+</body>
+</html>
